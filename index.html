@@ -58,56 +58,36 @@ var mapSwitcher = L.control.layers(baseLayers);
 var greenIcon = L.icon({
     iconUrl: 'images/greenIcon.png',
     shadowUrl: 'images/marker-shadow.png',
-
-    iconSize:     [25, 41], // size of the icon
-    shadowSize:   [41, 41], // size of the shadow
-    iconAnchor:   [25, 41], // point of the icon which will correspond to marker's location
-    shadowAnchor: [25, 41],  // the same for the shadow
+	iconAnchor:   [25, 41], // point of the icon which will correspond to marker's location
     popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
 });
 
 var yellowIcon = L.icon({
     iconUrl: 'images/yellowIcon.png',
     shadowUrl: 'images/marker-shadow.png',
-
-    iconSize:     [25, 41], // size of the icon
-    shadowSize:   [41, 41], // size of the shadow
-    iconAnchor:   [25, 41], // point of the icon which will correspond to marker's location
-    shadowAnchor: [25, 41],  // the same for the shadow
-    popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+	iconAnchor:   [25, 41], // point of the icon which will correspond to marker's location
+    popupAnchor:  [-12.5, -41] // point from which the popup should open relative to the iconAnchor
 });
 
 var redIcon = L.icon({
     iconUrl: 'images/redIcon.png',
     shadowUrl: 'images/marker-shadow.png',
-
-    iconSize:     [25, 41], // size of the icon
-    shadowSize:   [41, 41], // size of the shadow
-    iconAnchor:   [25, 41], // point of the icon which will correspond to marker's location
-    shadowAnchor: [25, 41],  // the same for the shadow
+	iconAnchor:   [25, 41], // point of the icon which will correspond to marker's location
     popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
 });
 
 var greyIcon = L.icon({
     iconUrl: 'images/greyIcon.png',
     shadowUrl: 'images/marker-shadow.png',
-
-    iconSize:     [25, 41], // size of the icon
-    shadowSize:   [41, 41], // size of the shadow
     iconAnchor:   [25, 41], // point of the icon which will correspond to marker's location
-    shadowAnchor: [25, 41],  // the same for the shadow
     popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
 });
 
 var selectedIcon = L.icon({
     iconUrl: 'images/blueIcon.png',
     shadowUrl: 'images/marker-shadow.png',
-
-    iconSize:     [25, 41], // size of the icon
-    shadowSize:   [41, 41], // size of the shadow
     iconAnchor:   [25, 41], // point of the icon which will correspond to marker's location
-    shadowAnchor: [25, 41],  // the same for the shadow
-    popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+    popupAnchor:  [-12.5, -41] // point from which the popup should open relative to the iconAnchor
 });
 
 var legend = L.control({position: 'bottomright'});
@@ -162,15 +142,13 @@ function zoomToFeature(e) {
 
 var popup = L.popup()
     .setContent("No popup info :(");
-	
-
-	
+		
 function showPopUp(e) {
-   popup.setContent("You clicked on " + e.target.feature.properties.name.toString() + ". <iframe id='iframe' src='./echart/sensorGraph.html'></iframe>");	
+   popup.setContent("<iframe id='iframe'  frameBorder='0' src='./echart/sensorGraph.html'></iframe>");	//"You clicked on " + e.target.feature.properties.name.toString() + 
    popup.setLatLng(e.target.getLatLng)
+   e.target.unbindPopup(); //solves issue of popup not re-opening a second time after being closed.
    e.target.bindPopup(popup, {maxWidth: "auto"}).openPopup();
 }
-
 
 // control that shows state info on hover
 var info = L.control();
@@ -183,7 +161,7 @@ info.onAdd = function (map) {
 
 info.update = function (props) {
 	this._div.innerHTML = '<h4>EWS Water Level</h4>' +  (props ?
-		'<b>Name: </b> ' + props.name + '<br /><b>Water Level:</b> ' + props.waterLevel + 'm<br /> <b>Status:</b> ' + props.status
+		'<b>Name: </b> ' + props.name + '<br /><b>Latest Water Level:</b> ' + props.waterLevel + 'm<br /> <b>Status:</b> ' + props.status
 		: 'Hover over a sensor');
 };
 

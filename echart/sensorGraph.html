@@ -4,7 +4,7 @@
        <meta charset="utf-8">
    </head>
    <script type="text/javascript" src="sensorRecentData.js"></script>
-   <body style="height: 100%; margin: 0">
+   <body style="height: 100%;width: 95%; margin: 0">
        <div id="container" style="height: 100%"></div>
        <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/echarts.min.js"></script>
        <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts-gl/echarts-gl.min.js"></script>
@@ -25,9 +25,9 @@ option = null;
 var date = []
 var data = []
 
+//Set two variables for min-max date ranges - used to set length of Marker lines (Alert/Warning levels)
 var alertThreshold = sensorRecentData.alertThreshold
 var warningThreshold = sensorRecentData.warningThreshold
-//Set two variables for min-max date ranges - used to set length of Marker lines (Alert/Warning levels)
 
 //populate the data and date arrays with records from JSON response file.
 for (i = 0; i < sensorRecentData.record.length; i++) { 
