@@ -45,15 +45,15 @@ var baseLayers = {
 
 //initialize the map
 var map = L.map('map', {
-		center: [12.7651441,105.2481703],
-		zoom: 7,
-		layers: [grayscale]})
-		
+    center: [12.4031626,105.7709708],
+    zoom: 7,
+    layers: [streets]})
+    
 //map switcher control
 var mapSwitcher = L.control.layers(baseLayers);
-	mapSwitcher.setPosition('bottomleft');
-	mapSwitcher.addTo(map);
-
+  mapSwitcher.setPosition('bottomleft');
+  mapSwitcher.addTo(map);
+  
 //define icon classes.
 var greenIcon = L.icon({
     iconUrl: 'images/greenIcon.png',
@@ -148,10 +148,28 @@ function showPopUp(e) {
    popup.setLatLng(e.target.getLatLng)
    e.target.unbindPopup(); //solves issue of popup not re-opening a second time after being closed.
    e.target.bindPopup(popup, {maxWidth: "auto"}).openPopup();
-}
+
+   
+   //make controls invisible to clean page for mobile devices
+   info._div.style.opacity = 0;
+   legend._container.style.opacity = 0;
+   mapSwitcher._container.style.opacity = 0;
+   map.zoomControl.remove(true);
+   mapSwitcher._container.style.opacity = 0
+   
+   
+   }
 
 // control that shows state info on hover
 var info = L.control();
+
+//add back items to clean page for mobile devices
+popup.on('remove', function(e) {
+                     info._div.style.opacity = 1;
+                     map.zoomControl.addTo(map)
+                     legend._container.style.opacity = 1;
+                     mapSwitcher._container.style.opacity = 1
+                     });
 
 info.onAdd = function (map) {
 	this._div = L.DomUtil.create('div', 'info');
@@ -161,7 +179,7 @@ info.onAdd = function (map) {
 
 info.update = function (props) {
 	this._div.innerHTML = '<h4>EWS Water Level</h4>' +  (props ?
-		'<b>Name: </b> ' + props.name + '<br /><b>Latest Water Level:</b> ' + props.waterLevel + 'm<br /> <b>Status:</b> ' + props.status
+		'<b>Name: </b> ' + props.name + '<br /><b>Latest Water Level:</b> ' + props.waterLevel + 'cm<br /> <b>Status:</b> ' + props.status
 		: 'Hover over a sensor');
 };
 
